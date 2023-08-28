@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 
+var authRouter = require("./src/routes/auth");
 var testRouter = require("./src/routes/test");
 var usersRouter = require("./src/routes/users");
 
@@ -27,6 +28,7 @@ app.use(cors());
 //   })
 // );
 
+app.use("/auth", authRouter);
 app.use("/test", testRouter);
 app.use("/users", usersRouter);
 
