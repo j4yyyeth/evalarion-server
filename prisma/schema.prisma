@@ -12,7 +12,6 @@ generator client {
 model User {
     id               Int            @id @default(autoincrement())
     email            String         @unique
-    username         String         @unique
     password         String        
     languages        String[]
     languagesToLearn String[]

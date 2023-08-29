@@ -7,8 +7,8 @@ const saltRounds = 10;
 
 const sign_up = async (req, res, next) => {
   try {
-    const { email, username, password } = req.body;
-    if (!email || !username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(400).json("Please fill out all fields");
     }
     const existingUser = await prisma.user.findUnique({
@@ -17,21 +17,19 @@ const sign_up = async (req, res, next) => {
       },
     });
     if (existingUser) {
-      return res.status(400).json("Email or Username already taken");
+      return res.status(400).json("User already taken");
     }
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPass = bcrypt.hashSync(password, salt);
     const createdUser = await prisma.user.create({
       data: {
         email: email,
-        username: username,
         password: hashedPass,
       },
     });
     const payload = {
       id: createdUser.id,
       email: createdUser.email,
-      username: createdUser.username,
     };
     const token = jwt.sign(payload, process.env.SECRET, {
       algorithm: "HS256",
@@ -49,13 +47,13 @@ const sign_up = async (req, res, next) => {
 
 const sign_in = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(400).json("Please fill out both fields");
     }
     const existingUser = await prisma.user.findUnique({
       where: {
-        username: username,
+        email: email,
       },
     });
     if (!existingUser) {
@@ -68,7 +66,6 @@ const sign_in = async (req, res, next) => {
     const payload = {
       id: existingUser.id,
       email: existingUser.email,
-      username: existingUser.username,
     };
     const token = jwt.sign(payload, process.env.SECRET, {
       algorithm: "HS256",

@@ -10,23 +10,22 @@ const all_users = async (req, res, next) => {
   }
 };
 
-const create_user = async (req, res, next) => {
+const one_user = async (req, res, next) => {
+  const { userId } = req.body;
   try {
-    const { email, username } = req.body;
-    const user = await prisma.user.create({
-      data: {
-        email: email,
-        username: username,
-      },
-    });
-    console.log("CREATED USER: ", user);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (!user) {
+      return res.status(400).json("No user found");
+    }
+    res.json(user);
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: "Error creating user", details: err.message });
-    console.log(err.message);
+    console.log(err);
   }
-};
+}
 
 const delete_user = async (req, res, next) => {
   try {
@@ -45,6 +44,6 @@ const delete_user = async (req, res, next) => {
 
 module.exports = {
   all_users,
-  create_user,
+  one_user,
   delete_user,
 };
