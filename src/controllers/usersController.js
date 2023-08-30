@@ -113,10 +113,25 @@ const add_language_test = async (req, res, next) => {
   }
 }
 
+const add_project_test = async () => {
+  try {
+    const { projectName } = req.body;
+    const languages = req.body;
+    console.log("PROJECT: ", projectName);
+    languages.forEach((e) => {
+      console.log("Language: ", e.label);
+    })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   add_language,
   add_language_learn,
   add_language_test,
+  add_project_test,
+  //
   all_users,
   one_user,
   delete_user,
