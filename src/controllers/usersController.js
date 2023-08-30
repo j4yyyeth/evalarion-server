@@ -3,7 +3,11 @@ const prisma = new PrismaClient();
 
 const all_users = async (req, res, next) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: {
+        codeSnippets: true,
+      },
+    });
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -131,8 +135,20 @@ const add_code_test = async (req, res, next) => {
     const { language, code } = req.body;
     console.log("CODE BLOCK LANGUAGE:", language);
     console.log("CODE SNIPPET: ", code);
+    const codeSnippet = await prisma.codeSnippet.create({
+      data: {
+        codeBlock: code,
+        language: language,
+        User: {
+          connect: { id: 14 },
+        },
+      },
+    });
+    console.log("Created Code Snippet", codeSnippet);
+    res.status(200).json(codeSnippet);
   } catch (err) {
     console.log(err);
+    res.status(500).json(err);
   }
 };
 
