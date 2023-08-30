@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const languageArr = ["HTML", "CSS", "Javascript", "Typescript", "Python", "Java", "PHP", "GO", "Swift", "Ruby", "Rust", "C", "C++", "C#", "SQL"];
+
 const all_users = async (req, res, next) => {
   try {
     const users = await prisma.user.findMany({
@@ -151,6 +153,8 @@ const add_code_test = async (req, res, next) => {
     res.status(500).json(err);
   }
 };
+
+
 
 module.exports = {
   add_language,
