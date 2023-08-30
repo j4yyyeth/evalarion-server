@@ -107,30 +107,41 @@ const add_language_test = async (req, res, next) => {
     const languages = req.body;
     languages.forEach((e) => {
       console.log("Language: ", e.label);
-    })
+    });
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-const add_project_test = async () => {
+const add_project_test = async (req, res, next) => {
   try {
     const { projectName } = req.body;
     const languages = req.body;
     console.log("PROJECT: ", projectName);
     languages.forEach((e) => {
       console.log("Language: ", e.label);
-    })
+    });
   } catch (err) {
     console.log(err);
   }
-}
+};
+
+const add_code_test = async (req, res, next) => {
+  try {
+    const { language, code } = req.body;
+    console.log("CODE BLOCK LANGUAGE:", language);
+    console.log("CODE SNIPPET: ", code);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports = {
   add_language,
   add_language_learn,
   add_language_test,
   add_project_test,
+  add_code_test,
   //
   all_users,
   one_user,
