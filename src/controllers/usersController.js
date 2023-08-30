@@ -1,7 +1,23 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const languageArr = ["HTML", "CSS", "Javascript", "Typescript", "Python", "Java", "PHP", "GO", "Swift", "Ruby", "Rust", "C", "C++", "C#", "SQL"];
+const languageArr = [
+  "HTML",
+  "CSS",
+  "Javascript",
+  "Typescript",
+  "Python",
+  "Java",
+  "PHP",
+  "GO",
+  "Swift",
+  "Ruby",
+  "Rust",
+  "C",
+  "C++",
+  "C#",
+  "SQL",
+];
 
 const all_users = async (req, res, next) => {
   try {
@@ -111,8 +127,12 @@ const add_language_learn = async (req, res, next) => {
 const add_language_test = async (req, res, next) => {
   try {
     const languages = req.body;
-    languages.forEach((e) => {
-      console.log("Language: ", e.label);
+    console.log(languages);
+    await languages.forEach((e) => {
+      console.log(e);
+      if (!languageArr.includes(e.label)) {
+        return res.status(500).json("INVALID LANGUAGE");
+      }
     });
   } catch (err) {
     console.log(err);
@@ -153,8 +173,6 @@ const add_code_test = async (req, res, next) => {
     res.status(500).json(err);
   }
 };
-
-
 
 module.exports = {
   add_language,
