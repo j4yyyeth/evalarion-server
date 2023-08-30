@@ -42,7 +42,11 @@ const delete_user = async (req, res, next) => {
   }
 };
 
-// REAL -->
+/*
+
+  ----- REAL ROUTES ZONE -----
+
+*/
 
 const add_language = async (req, res, next) => {
   try {
@@ -71,8 +75,48 @@ const add_language = async (req, res, next) => {
   }
 };
 
+const add_language_learn = async (req, res, next) => {
+  try {
+    const { language, userId } = req.body;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +userId,
+      },
+    });
+    if (!user) {
+      console.log("NO USER FOUND!");
+    }
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: +userId,
+      },
+      data: {
+        languagesToLearn: {
+          push: language,
+        },
+      },
+    });
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const add_language_test = async (req, res, next) => {
+  try {
+    const languages = req.body;
+    languages.forEach((e) => {
+      console.log("Language: ", e.label);
+    })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   add_language,
+  add_language_learn,
+  add_language_test,
   all_users,
   one_user,
   delete_user,

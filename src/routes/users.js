@@ -7,5 +7,7 @@ router.get("/all", usersController.all_users);
 router.get("/one", usersController.one_user);
 router.delete("/delete", usersController.delete_user);
 router.post("/add-language", usersController.add_language);
+router.post("/add-language-learn", usersController.add_language_learn);
+router.post("/add-language-test", usersController.add_language_test);
 
 module.exports = router;
