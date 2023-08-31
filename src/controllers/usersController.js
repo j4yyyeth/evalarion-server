@@ -174,12 +174,27 @@ const add_code_test = async (req, res, next) => {
   }
 };
 
+const params_test = async (req, res, next) => {
+  const { userId } = req.params;
+  console.log("USER ID: ", userId);
+  const user = await prisma.user.findUnique({
+    where: {
+      id: +userId
+    }
+  })
+  if (!user) {
+    res.status(500).json("No user found");
+  }
+  res.status(200).json(user);
+}
+
 module.exports = {
   add_language,
   add_language_learn,
   add_language_test,
   add_project_test,
   add_code_test,
+  params_test,
   //
   all_users,
   one_user,
