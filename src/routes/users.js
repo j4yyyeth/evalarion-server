@@ -11,6 +11,7 @@ router.post("/add-language-learn", usersController.add_language_learn);
 router.post("/add-language-test", usersController.add_language_test);
 router.post("/add-project-test", usersController.add_project_test);
 router.post("/add-code-block", usersController.add_code_test);
-router.post("/:userId", usersController.params_test);
+router.get("/:id", usersController.params_test);
+router.get("/info/:id", usersController.params_test_info);
 
 module.exports = router;

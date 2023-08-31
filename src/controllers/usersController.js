@@ -166,7 +166,7 @@ const add_code_test = async (req, res, next) => {
         },
       },
     });
-    console.log("Created Code Snippet", codeSnippet);
+    console.log("Created Code Snippet: ", codeSnippet);
     res.status(200).json(codeSnippet);
   } catch (err) {
     console.log(err);
@@ -175,18 +175,38 @@ const add_code_test = async (req, res, next) => {
 };
 
 const params_test = async (req, res, next) => {
-  const { userId } = req.params;
-  console.log("USER ID: ", userId);
+  try {
+    const { id } = req.params;
+    console.log("USER ID: ", id);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    if (!user) {
+      res.status(500).json("No user found");
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const params_test_info = async (req, res, next) => {
+  const { id } = req.params;
   const user = await prisma.user.findUnique({
     where: {
-      id: +userId
-    }
-  })
+      id: +id,
+    },
+    include: {
+      codeSnippets: true,
+    },
+  });
   if (!user) {
     res.status(500).json("No user found");
   }
   res.status(200).json(user);
-}
+};
 
 module.exports = {
   add_language,
@@ -195,6 +215,7 @@ module.exports = {
   add_project_test,
   add_code_test,
   params_test,
+  params_test_info,
   //
   all_users,
   one_user,
