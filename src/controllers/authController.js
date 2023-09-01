@@ -36,7 +36,11 @@ const sign_up = async (req, res, next) => {
       expiresIn: "24hr", // session time
     });
     console.log("Created User: ", createdUser);
-    res.status(200).json({ token: token, id: createdUser.id });
+    res.status(200)
+    .json({ token: token, createdUser: createdUser, payload: payload });
+    console.log("Created User: ", createdUser);
+    console.log("token: ", token);
+    console.log("payload: ", payload);
   } catch (err) {
     res
       .status(500)
