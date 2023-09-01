@@ -193,19 +193,23 @@ const params_test = async (req, res, next) => {
 };
 
 const params_test_info = async (req, res, next) => {
-  const { id } = req.params;
-  const user = await prisma.user.findUnique({
-    where: {
-      id: +id,
-    },
-    include: {
-      codeSnippets: true,
-    },
-  });
-  if (!user) {
-    res.status(500).json("No user found");
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +id,
+      },
+      include: {
+        codeSnippets: true,
+      },
+    });
+    if (!user) {
+      return res.status(500).json("No user found");
+    }
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json("Error");
   }
-  res.status(200).json(user);
 };
 
 module.exports = {
