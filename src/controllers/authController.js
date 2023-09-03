@@ -36,8 +36,9 @@ const sign_up = async (req, res, next) => {
       expiresIn: "24hr", // session time
     });
     console.log("Created User: ", createdUser);
-    res.status(200)
-    .json({ token: token, createdUser: createdUser, payload: payload });
+    res
+      .status(200)
+      .json({ token: token, createdUser: createdUser, payload: payload });
     console.log("Created User: ", createdUser);
     console.log("token: ", token);
     console.log("payload: ", payload);
@@ -92,8 +93,8 @@ const verify = async (req, res, next) => {
       },
     });
     const payload = { ...user };
-    delete payload._doc.password;
-    res.status(200).json(payload._doc);
+    delete payload.password;
+    res.status(200).json(payload);
   } catch (err) {
     console.log(err);
   }
