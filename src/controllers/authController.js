@@ -94,6 +94,7 @@ const verify = async (req, res, next) => {
     });
     const payload = { ...user };
     delete payload.password;
+    console.log("PAYLOAD: ", payload);
     res.status(200).json(payload);
   } catch (err) {
     console.log(err);
