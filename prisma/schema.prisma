@@ -13,10 +13,13 @@ model User {
     id               Int           @id @default(autoincrement())
     email            String        @unique
     password         String
-    githubUsername   String
-    leetCodeUsername String
-    languages        String[] // Going to be strict languages
-    languagesToLearn String[] // Going to be strict languages
+    createdAt        DateTime      @default(now())
+    isGoogleAccount  Boolean       @default(false) 
+    isGithubAccount  Boolean       @default(false) 
+    githubUsername   String?       
+    leetCodeUsername String?
+    languages        String[]
+    languagesToLearn String[] 
     projectIdeas     Project[]
     codeSnippets     CodeSnippet[]
     links            String[]
@@ -27,8 +30,8 @@ model Project {
     User        User?    @relation(fields: [userId], references: [id])
     userId      Int?
     title       String
-    description String
-    techStack   String[] // Going to be strict languages
+    description String?
+    techStack   String[] 
 }
 
 model CodeSnippet {
@@ -36,24 +39,7 @@ model CodeSnippet {
     User        User?  @relation(fields: [userId], references: [id])
     userId      Int?
     codeBlock   String
-    language    String // Going to be strict languages
+    language    String 
+    title       String?
     description String?
 }
-
-// enum Language {
-//     HTML
-//     CSS
-//     JAVASCRIPT
-//     TYPESCRIPT
-//     PYTHON
-//     JAVA
-//     PHP
-//     GO
-//     SWIFT
-//     RUBY
-//     RUST
-//     C
-//     CPP
-//     CSHARP
-//     SQL
-// }
