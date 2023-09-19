@@ -16,12 +16,12 @@ model User {
     createdAt        DateTime      @default(now())
     isGoogleAccount  Boolean       @default(false) 
     isGithubAccount  Boolean       @default(false) 
-    githubUsername   String?       
-    leetCodeUsername String?
     languages        String[]
     languagesToLearn String[] 
     projectIdeas     Project[]
     codeSnippets     CodeSnippet[]
+    githubUsername   String?       
+    leetCodeUsername String?
     links            String[]
 }
 

@@ -162,7 +162,7 @@ const add_code_test = async (req, res, next) => {
         codeBlock: code,
         language: language,
         User: {
-          connect: { id: 14 },
+          connect: { id: 1 },
         },
       },
     });
@@ -171,6 +171,59 @@ const add_code_test = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
+  }
+};
+
+const add_github = async (req, res, next) => {
+  try {
+    const { username } = req.body;
+    const { id } = await req.body;
+    console.log("id: ", id);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    if (!user) {
+      return res.status(500).json();
+    }
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        githubUsername: username,
+      },
+    });
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const add_leetcode = async (req, res, next) => {
+  try {
+    const { username } = req.body;
+    const { id } = req.body;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    if (!user) {
+      return res.status(500).json();
+    }
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        leetCodeUsername: username,
+      },
+    });
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -218,9 +271,10 @@ module.exports = {
   add_language_test,
   add_project_test,
   add_code_test,
+  add_github,
+  add_leetcode,
   params_test,
   params_test_info,
-  //
   all_users,
   one_user,
   delete_user,
