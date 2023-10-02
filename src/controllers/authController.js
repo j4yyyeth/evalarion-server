@@ -91,6 +91,10 @@ const verify = async (req, res, next) => {
       where: {
         id: req.user.id,
       },
+      include: {
+        projects: true,
+        codeSnippets: true,
+      },
     });
     const payload = { ...user };
     delete payload.password;
